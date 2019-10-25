@@ -1,0 +1,11 @@
+{
+  "name": "project_postgresql",
+  "version": "1.0.0",
+  "main": "index.js",
+  "repository": "https://github.com/BigOrt/postgresql_server.git",
+  "author": "'BigOrt' <'adytamasurya@gmail.com'>",
+  "license": "MIT",
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  }
+}
