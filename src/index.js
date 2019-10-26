@@ -9,7 +9,6 @@ try {
   const server = new ApolloServer({
     typeDefs,
     resolvers,
-    playground: true
   });
 
   server.applyMiddleware({ app });
