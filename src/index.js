@@ -15,7 +15,7 @@ try {
   server.applyMiddleware({ app })
   app.listen({ port: APP_PORT }, () =>
     console.log(
-      `Server ready at http://localhost:${APP_PORT}${server.graphqlPath}`
+      `🚀 Server ready at http://localhost:${APP_PORT}${server.graphqlPath}`
     )
   );
 } catch (e) {
