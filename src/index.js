@@ -1,23 +1,22 @@
-import { ApolloServer } from "apollo-server-express"
-import express from "express"
-import typeDefs from "./typeDefs"
-import resolvers from "./resolvers"
+import { ApolloServer } from "apollo-server-express";
+import express from "express";
+import typeDefs from "./typeDefs";
+import resolvers from "./resolvers";
 
 try {
-  const app = express()
-  const APP_PORT = 3000
+  const app = express();
 
   const server = new ApolloServer({
     typeDefs,
     resolvers,
     playground: true
   });
-  server.applyMiddleware({ app })
-  app.listen({ port: APP_PORT }, () =>
-    console.log(
-      `🚀 Server ready at http://localhost:${APP_PORT}${server.graphqlPath}`
-    )
+
+  server.applyMiddleware({ app });
+
+  app.listen({ port: 4000 }, () =>
+    console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`)
   );
 } catch (e) {
-  console.error(e)
+  console.error(e);
 }
