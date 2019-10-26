@@ -16,6 +16,6 @@
   },
   "scripts": {
     "start": "nodemon -r esm index.js",
-    "build": "nodemon -r esm index.js"
+    "build": "node -r esm index.js"
   }
 }
