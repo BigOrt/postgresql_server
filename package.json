@@ -19,7 +19,7 @@
     "graphql": "^14.5.8"
   },
   "scripts": {
-    "start": "nodemon --exec babel-node index.js",
+    "start": "nodemon --exec babel-node -r esm index.js",
     "build": "node -r esm index.js"
   }
 }
