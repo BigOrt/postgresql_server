@@ -1,22 +1,27 @@
-import Sequelize from 'sequelize';
-import seqConn from '../conn';
-
-const Book = seqConn.define(
-  'books',
-  {
-    title: {
-      type: Sequelize.STRING
+export default (sequelize, DataType) => {
+  const Book = sequelize.define(
+    "books",
+    {
+      id: {
+        type: DataType.UUID,
+        primaryKey: true,
+        defaultValue: DataType.UUIDV4,
+        allowNull: false
+      },
+      title: {
+        type: DataType.STRING
+      },
+      author: {
+        type: DataType.STRING
+      },
+      datepublish: {
+        type: DataType.STRING
+      }
     },
-    author: {
-      type: Sequelize.STRING
-    },
-    datepublish: {
-      type: Sequelize.STRING
+    {
+      timestamps: true
     }
-  },
-  {
-    timestamps: true
-  }
-);
+  );
 
-export default Book;
+  return Book;
+};

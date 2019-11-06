@@ -1,21 +1,19 @@
-import { Book } from "../models";
-
 export default {
   Query: {
-    Books: async () => {
-      return await Book.findAll().then(project =>
+    Books: async (__, _args, { ps }, _info) => {
+      return await ps.Book.findAll().then(project =>
         project.map(({ dataValues }) => dataValues)
       );
     },
-    Book: async (__, { id }) => {
-      return await Book.findOne({ where: { id: id } }).then(
+    Book: async (__, { id }, { ps }, _info) => {
+      return await ps.Book.findOne({ where: { id: id } }).then(
         ({ dataValues }) => dataValues
       );
     }
   },
   Mutation: {
-    addBook: async (__, args) => {
-      return await Book.findOrCreate({
+    addBook: async (__, args, { ps }) => {
+      return await ps.Book.findOrCreate({
         where: { author: args.author },
         defaults: { title: args.title, datepublish: args.datepublish }
       }).then(([book, created]) => {
@@ -28,8 +26,8 @@ export default {
         return book.get();
       });
     },
-    updateBook: async (__, args) => {
-      return await Book.update(
+    updateBook: async (__, args, { ps }) => {
+      return await ps.Book.update(
         {
           title: args.title,
           author: args.author,
@@ -38,14 +36,14 @@ export default {
         { where: { id: args.id } }
       ).then(([project]) =>
         project === 1
-          ? Book.findOne({ where: { id: args.id } }).then(
+          ? ps.Book.findOne({ where: { id: args.id } }).then(
               ({ dataValues }) => dataValues
             )
           : {}
       );
     },
-    deleteBook: (__, args) => {
-      return Book.destroy({ where: { id: args.id } }).then(project =>
+    deleteBook: (__, args, { ps }) => {
+      return ps.Book.destroy({ where: { id: args.id } }).then(project =>
         project === 1 ? true : false
       );
     }

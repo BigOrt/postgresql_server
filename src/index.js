@@ -2,11 +2,11 @@ import { ApolloServer } from "apollo-server-express";
 import express from "express";
 import typeDefs from "./typeDefs";
 import resolvers from "./resolvers";
-import dbconn from "./conn";
+import ps from "./conn";
 
 const startServer = async () => {
   try {
-    dbconn
+    ps.sequelize
       .authenticate()
       .then(() => {
         console.log("Connection has been established successfully.");
@@ -15,6 +15,8 @@ const startServer = async () => {
         console.error("Unable to connect to the database:", err);
       });
 
+    // ps.sequelize.sync().then(() => console.log("sync.. success !"));
+
     const app = express();
 
     const APP_PORT = 4000;
@@ -22,7 +24,8 @@ const startServer = async () => {
     const server = new ApolloServer({
       typeDefs,
       resolvers,
-      playground: true
+      playground: true,
+      context: { ps }
     });
 
     server.applyMiddleware({ app });
