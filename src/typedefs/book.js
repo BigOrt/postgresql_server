@@ -2,18 +2,18 @@ import { gql } from 'apollo-server-express'
 
 export default gql`
   extend type Query {
-    Book(id: ID!): Book!
+    Book(bookId: ID!): Book!
     Books: [Book!]!
   }
 
   extend type Mutation {
     addBook(title: String!, author: String!, datepublish: String! ):Book
-    updateBook(id: ID!, title: String!, author: String!, datepublish: String!):Book
-    deleteBook(id: ID!):Boolean
+    updateBook(bookId: ID!, title: String!, author: String!, datepublish: String!):Book
+    deleteBook(bookId: ID!):Boolean
   }
 
   type Book {
-    id: ID!
+    bookId: ID!
     title: String!
     author: String!
     datepublish: String!

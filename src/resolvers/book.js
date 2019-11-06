@@ -5,8 +5,8 @@ export default {
         project.map(({ dataValues }) => dataValues)
       );
     },
-    Book: async (__, { id }, { ps }, _info) => {
-      return await ps.Book.findOne({ where: { id: id } }).then(
+    Book: async (__, { bookId }, { ps }, _info) => {
+      return await ps.Book.findOne({ where: { bookId: bookId } }).then(
         ({ dataValues }) => dataValues
       );
     }
@@ -42,8 +42,8 @@ export default {
           : {}
       );
     },
-    deleteBook: (__, args, { ps }) => {
-      return ps.Book.destroy({ where: { id: args.id } }).then(project =>
+    deleteBook: (__, { bookId }, { ps }) => {
+      return ps.Book.destroy({ where: { bookId: bookId } }).then(project =>
         project === 1 ? true : false
       );
     }

@@ -2,7 +2,7 @@ export default (sequelize, DataType) => {
   const Book = sequelize.define(
     "books",
     {
-      id: {
+      bookId: {
         type: DataType.UUID,
         primaryKey: true,
         defaultValue: DataType.UUIDV4,
@@ -13,15 +13,18 @@ export default (sequelize, DataType) => {
       },
       author: {
         type: DataType.STRING
-      },
-      datepublish: {
-        type: DataType.STRING
       }
     },
     {
       timestamps: true
     }
   );
+
+  Book.associate = ps => {
+    Book.hasMany(ps.Borrow, {
+      foreignKey: "bookId"
+    });
+  };
 
   return Book;
 };
