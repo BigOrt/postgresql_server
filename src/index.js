@@ -4,7 +4,7 @@ import typeDefs from "./typeDefs";
 import resolvers from "./resolvers";
 import ps from "./models";
 import Dataloader from "dataloader";
-import { batchBooks, batchPersons } from "./dataloaders";
+import { batchBooks, batchPersons } from "./mydataloader";
 
 const startServer = async () => {
   try {
