@@ -7,8 +7,8 @@ export default gql`
   }
 
   extend type Mutation {
-    addBook(title: String!, author: String!, datepublish: String! ):Book
-    updateBook(bookId: ID!, title: String!, author: String!, datepublish: String!):Book
+    addBook(title: String!, author: String!):Book
+    updateBook(bookId: ID!, title: String!, author: String!):Book
     deleteBook(bookId: ID!):Boolean
   }
 

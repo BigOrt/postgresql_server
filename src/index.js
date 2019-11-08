@@ -3,10 +3,12 @@ import express from "express";
 import typeDefs from "./typeDefs";
 import resolvers from "./resolvers";
 import ps from "./models";
+import Dataloader from "dataloader";
+import { batchBooks, batchPersons } from "./dataloaders";
 
 const startServer = async () => {
   try {
-    ps.sequelize
+    await ps.sequelize
       .authenticate()
       .then(() => {
         console.log("Connection has been established successfully.");
@@ -15,7 +17,6 @@ const startServer = async () => {
       .catch(err => {
         console.error("Unable to connect to the database:", err);
       });
-    
 
     const app = express();
 
@@ -25,7 +26,11 @@ const startServer = async () => {
       typeDefs,
       resolvers,
       playground: true,
-      context: { ps }
+      context: {
+        ps,
+        bookLoader: new Dataloader(keys => batchBooks(keys, ps)),
+        personLoader: new Dataloader(keys => batchPersons(keys, ps))
+      }
     });
 
     server.applyMiddleware({ app });

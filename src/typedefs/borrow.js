@@ -1,11 +1,22 @@
-import { gql } from 'apollo-server-express'
+import { gql } from "apollo-server-express";
 
 export default gql`
+    extend type Query {
+        Borrows: [Borrow!]!
+        selectPerson(personIds: ID!):[Borrow!]!
+    }
+
+    extend type Mutation {
+        startBorrow(borrowIds: ID!, personIds: ID!, bookIds: ID!, takendate: String!, broughtdate: String!):Borrow
+    }
+
     type Borrow {
         borrowId: ID!
-        person: [Person!]!,
-        book: [Book!]!
-        takenDate: String!,
-        broughtDate: String!
+        persons: [Person!]!
+        books: [Book!]!
+        takendate: String!
+        broughtdate: String!
+        createdAt: String!
+        updatedAt: String!
     }
 `
