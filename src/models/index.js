@@ -7,7 +7,8 @@ const seq = new Sequelize(
 const ps = {
   Book: seq.import("./book"),
   Borrow: seq.import("./borrow"),
-  Person: seq.import("./person")
+  Person: seq.import("./person"),
+  User: seq.import("./user")
 };
 
 Object.keys(ps).forEach(modelName => {

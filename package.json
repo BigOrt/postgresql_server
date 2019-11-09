@@ -14,13 +14,17 @@
   },
   "dependencies": {
     "apollo-server-express": "^2.9.7",
+    "connect-redis": "^4.0.3",
+    "cryptorjs": "^3.0.0",
     "dataloader": "^1.4.0",
     "esm": "^3.2.25",
     "express": "^4.17.1",
+    "express-session": "^1.17.0",
     "graphql": "^14.5.8",
     "lodash": "^4.17.15",
     "pg": "^7.12.1",
     "pg-hstore": "^2.3.3",
+    "redis": "^2.8.0",
     "sequelize": "^5.21.2"
   },
   "scripts": {

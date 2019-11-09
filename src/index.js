@@ -1,5 +1,21 @@
-import { ApolloServer } from "apollo-server-express";
+import { ApolloServer, PubSub } from "apollo-server-express";
 import express from "express";
+import session from "express-session";
+import connectRedis from "connect-redis";
+import redis from "redis";
+import http from "http";
+
+import {
+  APP_PORT,
+  REDIS_HOST,
+  REDIS_PORT,
+  REDIS_PASSWORD,
+  SESS_NAME,
+  SESS_SECRET,
+  SESS_LIFETIME,
+  IN_PROD
+} from "./config";
+
 import typeDefs from "./typeDefs";
 import resolvers from "./resolvers";
 import ps from "./models";
@@ -20,26 +36,86 @@ const startServer = async () => {
 
     const app = express();
 
-    const APP_PORT = 4000;
+    //add redis store
+    let redisStore = connectRedis(session);
+
+    let client = new redis.createClient({
+      host: REDIS_HOST,
+      port: REDIS_PORT,
+      password: REDIS_PASSWORD
+      // db: REDIS_DB,
+    });
+
+    client.unref();
+    client.on("error", console.log);
+
+    //adding session
+    const sessionMiddleware = session({
+      store: new redisStore({ client }),
+      name: SESS_NAME,
+      secret: SESS_SECRET,
+      resave: false,
+      saveUninitialized: false,
+      cookie: {
+        maxAge: parseInt(SESS_LIFETIME),
+        sameSites: true,
+        secure: IN_PROD
+      }
+    });
+    app.use(sessionMiddleware);
+
+    //addind Subscriptions
+    const pubsub = new PubSub();
 
     const server = new ApolloServer({
       typeDefs,
       resolvers,
-      playground: true,
-      context: {
+      playground: IN_PROD
+        ? false
+        : {
+            settings: {
+              "request.credentials": "include"
+            }
+          },
+      context: ({ req, res, connection }) => ({
+        req,
+        res,
+        connection,
         ps,
+        pubsub,
         bookLoader: new Dataloader(keys => batchBooks(keys, ps)),
         personLoader: new Dataloader(keys => batchPersons(keys, ps))
+      }),
+      subscriptions: {
+        onConnect: (_, ws) => {
+          return new Promise(res =>
+            sessionMiddleware(ws.upgradeReq, {}, () => {
+              res({ req: ws.upgradeReq });
+            })
+          );
+        }
       }
     });
 
     server.applyMiddleware({ app });
 
-    app.listen({ port: APP_PORT }, () =>
+    const httpServer = http.createServer(app);
+    server.installSubscriptionHandlers(httpServer);
+    // ⚠️ Pay attention to the fact that we are calling `listen` on the http server variable, and not on `app`.
+    httpServer.listen({ port: APP_PORT }, () => {
       console.log(
-        `🚀 Server ready at http://localhost:4000${server.graphqlPath}`
-      )
-    );
+        `🚀 Server ready at http://localhost:${APP_PORT}${server.graphqlPath}`
+      );
+      console.log(
+        `🚀 Subscriptions ready at ws://localhost:${APP_PORT}${server.subscriptionsPath}`
+      );
+    });
+
+    // app.listen({ port: APP_PORT }, () =>
+    //   console.log(
+    //     `🚀 Server ready at http://localhost:4000${server.graphqlPath}`
+    //   )
+    // );
   } catch (e) {
     console.error(e);
   }

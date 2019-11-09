@@ -10,6 +10,10 @@ export default gql`
         startBorrow(borrowIds: ID!, personIds: ID!, bookIds: ID!, takendate: String!, broughtdate: String!):Borrow
     }
 
+    extend type Subscription {
+        borrowAdded: Borrow
+    }
+
     type Borrow {
         borrowId: ID!
         persons: [Person!]!

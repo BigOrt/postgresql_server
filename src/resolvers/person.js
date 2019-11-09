@@ -9,6 +9,9 @@ export default {
   },
   Mutation: {
     addPerson: async (__, args, { ps }) => {
+
+      //!need validation
+
       return await ps.Person.findOrCreate({
         where: { name: args.name },
         defaults: { address: args.address, phone: args.phone }

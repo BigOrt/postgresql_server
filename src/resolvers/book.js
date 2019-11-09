@@ -9,6 +9,9 @@ export default {
   },
   Mutation: {
     addBook: async (__, args, { ps }) => {
+
+      //!need validation
+
       return await ps.Book.findOrCreate({
         where: { author: args.author },
         defaults: { title: args.title }
