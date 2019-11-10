@@ -1,5 +1,6 @@
 import { AuthenticationError } from "apollo-server-express";
-import { SESS_NAME } from "./config";
+
+const { SESS_NAME } = process.env;
 
 const checkUserId = req => req.session.userId;
 

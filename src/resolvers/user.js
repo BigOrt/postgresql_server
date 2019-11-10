@@ -1,8 +1,8 @@
 import cryptorjs from "cryptorjs";
-import { CRYPTOJS } from "../config";
 import * as Auth from "../auth";
 import { AuthenticationError } from "apollo-server-express";
 
+const { CRYPTOJS } = process.env;
 const myCryptor = new cryptorjs(CRYPTOJS, "camellia-256-cbc");
 
 export default {
