@@ -4,6 +4,7 @@
 
 before install setup .env first
 
+``
 URI_DB=
 APP_PORT=
 NODE_ENV=
@@ -14,4 +15,4 @@ REDIS_HOST=
 REDIS_PORT=
 REDIS_PASSWORD=
 CRYPTOJS=
-
+``
