@@ -2,7 +2,7 @@
 !env
 *postgresql-server-subcription-redis
 
-before install setup .env first
+setup .env first
 
 ```
 URI_DB=
