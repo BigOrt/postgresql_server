@@ -5,7 +5,15 @@ import connectRedis from "connect-redis";
 import redis from "redis";
 import http from "http";
 
-import {
+import "dotenv/config";
+
+import typeDefs from "./typeDefs";
+import resolvers from "./resolvers";
+import ps from "./models";
+import Dataloader from "dataloader";
+import { batchBooks, batchPersons } from "./mydataloader";
+
+const {
   APP_PORT,
   REDIS_HOST,
   REDIS_PORT,
@@ -13,14 +21,9 @@ import {
   SESS_NAME,
   SESS_SECRET,
   SESS_LIFETIME,
-  IN_PROD
-} from "./config";
-
-import typeDefs from "./typeDefs";
-import resolvers from "./resolvers";
-import ps from "./models";
-import Dataloader from "dataloader";
-import { batchBooks, batchPersons } from "./mydataloader";
+  NODE_ENV,
+} = process.env
+const IN_PROD = NODE_ENV === 'production';
 
 const startServer = async () => {
   try {
