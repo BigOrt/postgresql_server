@@ -13,7 +13,7 @@
     "nodemon": "^1.19.4"
   },
   "dependencies": {
-    "apollo-server-express": "^2.9.7",
+    "apollo-server-express": "^2.14.2",
     "connect-redis": "^4.0.3",
     "cryptorjs": "^3.0.0",
     "dataloader": "^1.4.0",
