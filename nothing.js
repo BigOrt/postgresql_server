@@ -6,9 +6,4 @@ rasva14ndy
 google
 -
 nadiaa6543@gmail.com
-ganymede9009576cat
-
-google
--
-nadyacahyaningrum90@gmail.com
-rockpaperscissor
+rasva14ndy
